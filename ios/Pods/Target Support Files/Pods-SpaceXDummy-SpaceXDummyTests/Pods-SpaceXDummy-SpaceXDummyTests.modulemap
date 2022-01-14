@@ -1,0 +1,6 @@
+module Pods_SpaceXDummy_SpaceXDummyTests {
+  umbrella header "Pods-SpaceXDummy-SpaceXDummyTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
