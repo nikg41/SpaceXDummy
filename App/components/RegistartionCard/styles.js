@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
     cardView: {
-        flex: 0.85,
+        flex: 1,
         backgroundColor: "white",
         borderTopStartRadius: 28,
         borderTopEndRadius: 38,

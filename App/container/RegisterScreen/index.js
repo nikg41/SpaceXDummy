@@ -13,7 +13,8 @@ const RegisterScreen = () => {
             <Header
                 title={"Sign up"} />
             <RegistartionCard>
-                <SocialLogin />
+                <SocialLogin
+                    startText={"Sign up"} />
             </RegistartionCard>
         </SafeAreaView>
     </React.Fragment>
