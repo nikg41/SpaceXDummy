@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     buttonStyle: {
         width: width - 30,
         borderRadius: 35,
-        height: 45,
+        height: 40,
         flexDirection: 'row'
     },
 
@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
     iconStyle: {
         marginLeft: 0,
         marginTop: 0,
-        height: 45,
-        width: 45
+        height: 40,
+        width: 40
     },
 
     socialText: {
@@ -40,6 +40,24 @@ const styles = StyleSheet.create({
         backgroundColor: "#E8A99C",
         marginTop: 15
     },
+
+    horizontalLine: {
+        width: "30%",
+        height: 1,
+        backgroundColor: "#c1c1c1"
+    },
+
+    orText: {
+        color: "#c1c1c1",
+        marginHorizontal: 20
+    },
+
+    orView: {
+        flexDirection: "row",
+        marginTop: 15,
+        alignItems: "center",
+        justifyContent: "center"
+    }
 
 
 })

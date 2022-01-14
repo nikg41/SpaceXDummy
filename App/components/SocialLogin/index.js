@@ -30,6 +30,11 @@ const SocialLogin = (props) => {
             />
             <Text style={styles.socialText}>{`${props.startText} with Google`}</Text>
         </Pressable>
+        <View style={styles.orView}>
+            <View style={styles.horizontalLine} />
+            <Text style={styles.orText}>Or</Text>
+            <View style={styles.horizontalLine} />
+        </View>
     </View>
 };
 
