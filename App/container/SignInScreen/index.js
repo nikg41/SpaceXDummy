@@ -12,23 +12,19 @@ import { isEmpty } from "ramda";
 const EMAIL_PATTERN = new RegExp('^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$');
 const PASSWORD_PATTERN = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#&])(?=.{8,})");
 // (?=.*[0-9])(?=.*[@$!%*#?&])
-const RegisterScreen = (props) => {
+const SignInScreen = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
     const [passwordButton, setPasswordButton] = useState(true);
-    const [confirmPasswordButton, setConfirmPasswordButton] = useState(true);
-    const [termsButton, setTermsButton] = useState(false);
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
-    const [confirmPasswordError, setConfirmPasswordError] = useState('')
 
-    const onSignUpPressed = () => {
+    const onSignInPressed = () => {
         let isEmailValid = EMAIL_PATTERN.test(email);
         let isPasswordvalid = PASSWORD_PATTERN.test(password);
 
         if (!isEmpty(email.trim()) && !isEmpty(password) && isEmailValid
-            && password === confirmPassword && termsButton && isPasswordvalid) {
+            && isPasswordvalid) {
             console.log("::::: :, Hello")
         }
         else {
@@ -40,10 +36,7 @@ const RegisterScreen = (props) => {
             if (isEmpty(password)) {
                 setPasswordError("Please enter your password")
             } else if (!isPasswordvalid) {
-                setPasswordError("Password must contain 1 Capital Letter, 1 digit and 1 special character @#&")
-            }
-            if (!isEmpty(password) && password !== confirmPassword) {
-                setConfirmPasswordError("Confirm Your Password")
+                setPasswordError("Incorrect Password")
             }
 
         }
@@ -54,13 +47,13 @@ const RegisterScreen = (props) => {
         <SafeAreaView style={styles.container}>
             <AndroidStatusBar backgroundColor={"#312F57"} />
             <Header
-                title={"Sign up"} />
+                title={"Sign in"} />
             <RegistartionCard>
                 <SocialLogin
-                    startText={"Sign up"} />
+                    startText={"Sign in"} />
                 <KeyboardAwareScrollView
                     showsVerticalScrollIndicator={false}
-                    style={styles.signupView}>
+                    style={styles.signinView}>
                     <View style={styles.textInputView}>
                         <TextInput
                             value={email}
@@ -98,51 +91,16 @@ const RegisterScreen = (props) => {
                         </Pressable>
                     </View>
                     {!isEmpty(passwordError) && <Text style={styles.errorText}>{passwordError}</Text>}
-                    {isEmpty(passwordError) && <Text style={styles.passwordText}>{"Password must contain 1 Capital Letter, 1 digit and 1 special character @#&"}</Text>}
-                    <View style={[styles.textInputView, styles.passwordView]}>
-                        <TextInput
-                            value={confirmPassword}
-                            placeholderTextColor="#7F7F7F"
-                            style={styles.textInputStyle}
-                            placeholder="Confirm Password"
-                            onChangeText={(value) => {
-                                setConfirmPassword(value.trim());
-                                setConfirmPasswordError('')
-                            }}
-                            keyboardType="default"
-                            secureTextEntry={confirmPasswordButton}
-                        />
+                    <View style={{ marginTop: 30 }}>
                         <Pressable
-                            onPress={() => setConfirmPasswordButton((prevValue) => !prevValue)}>
-                            <Icons
-                                name={confirmPasswordButton ? 'eye-off-outline' : 'eye-outline'}
-                                color="#7F7F7F"
-                                size={20}
-                            />
+                            onPress={onSignInPressed}
+                            style={styles.signInButton}>
+                            <Text style={styles.signInText}>Sign In</Text>
                         </Pressable>
+                        <Text style={styles.signUpText}>Don't have an account? <Text
+                            style={{ color: "#312F57" }}
+                            onPress={() => props.navigation.navigate("InitialScreen")}>Sign Up</Text></Text>
                     </View>
-                    {!isEmpty(confirmPasswordError) && <Text style={styles.errorText}>{confirmPasswordError}</Text>}
-
-                    <View style={styles.termsView}>
-                        <Pressable
-                            onPress={() => setTermsButton((prevValue) => !prevValue)}>
-                            <Icons
-                                name={termsButton ? 'checkbox-marked' : 'checkbox-blank-outline'}
-                                color="#312F57"
-                                size={22}
-                            />
-                        </Pressable>
-                        <Text style={styles.termsText}>I agree to our <Text style={{ color: "#312F57" }}>Terms and Conditions</Text> Agreement</Text>
-                    </View>
-
-                    <Pressable
-                        onPress={onSignUpPressed}
-                        style={styles.signUpButton}>
-                        <Text style={styles.signUpText}>Sign Up</Text>
-                    </Pressable>
-                    <Text style={styles.signInText}>Already have an account? <Text
-                        style={{ color: "#312F57" }}
-                        onPress={() => props.navigation.navigate("SignInScreen")}>Sign In</Text></Text>
                 </KeyboardAwareScrollView>
 
             </RegistartionCard>
@@ -150,4 +108,4 @@ const RegisterScreen = (props) => {
     </React.Fragment>
 };
 
-export default RegisterScreen;
+export default SignInScreen;
