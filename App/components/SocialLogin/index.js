@@ -82,14 +82,6 @@ const SocialLogin = (props) => {
             />
             <Text style={styles.socialText}>{`${props.startText} with Facebook`}</Text>
         </Pressable>
-        <Pressable style={[styles.buttonStyle, styles.twitter]}>
-            <SocialIcon
-                type="twitter"
-                raised={false}
-                style={styles.iconStyle}
-            />
-            <Text style={styles.socialText}>{`${props.startText} with Twitter`}</Text>
-        </Pressable>
 
         <Pressable
             onPress={() => {
