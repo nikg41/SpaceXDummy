@@ -1,9 +1,11 @@
 import {
-    SAVE_EMAIL
+    SAVE_EMAIL,
+    SAVE_LOGIN
 } from '../constants';
 
 const initialState = {
-    email: ''
+    email: '',
+    isLoggedIn: false
 };
 const userDetailsreducer = (state = initialState, action) => {
     switch (action.type) {
@@ -12,6 +14,11 @@ const userDetailsreducer = (state = initialState, action) => {
                 ...state,
                 ...action.payload
             };
+        case SAVE_LOGIN:
+            return {
+                ...state,
+                isLoggedIn: true
+            }
         default:
             return state;
     }

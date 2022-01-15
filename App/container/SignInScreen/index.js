@@ -9,7 +9,10 @@ import { TextInput } from "react-native-gesture-handler";
 import Icons from "react-native-vector-icons/MaterialCommunityIcons"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { isEmpty } from "ramda";
-const EMAIL_PATTERN = new RegExp('^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$');
+import { SAVE_LOGIN } from "../../constants";
+import { useDispatch } from "react-redux";
+
+const EMAIL_PATTERN = new RegExp('^[a-z0-9A-Z]+@[a-z]+\.[a-z]{2,3}$');
 const PASSWORD_PATTERN = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#&])(?=.{8,})");
 // (?=.*[0-9])(?=.*[@$!%*#?&])
 const SignInScreen = (props) => {
@@ -18,14 +21,17 @@ const SignInScreen = (props) => {
     const [passwordButton, setPasswordButton] = useState(true);
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
+    const dispatch = useDispatch();
 
     const onSignInPressed = () => {
         let isEmailValid = EMAIL_PATTERN.test(email);
         let isPasswordvalid = PASSWORD_PATTERN.test(password);
-
+        setEmailError('');
+        setPasswordError('');
         if (!isEmpty(email.trim()) && !isEmpty(password) && isEmailValid
             && isPasswordvalid) {
-            console.log("::::: :, Hello")
+            dispatch({ type: SAVE_LOGIN })
+            props.navigation.navigate('MainScreen')
         }
         else {
             if (isEmpty(email.trim())) {

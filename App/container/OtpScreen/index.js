@@ -6,10 +6,13 @@ import RegistartionCard from "../../components/RegistartionCard";
 import AndroidStatusBar from "../../components/AndroidStatusBar";
 import { useSelector, useDispatch } from 'react-redux'
 import OTPInputView from '@twotalltotems/react-native-otp-input';
+import { SAVE_LOGIN } from "../../constants";
+import { isEmpty } from "ramda";
 
 
 const OtpScreen = (props) => {
     const userDetails = useSelector(state => state.userDetails);
+    const dispatch = useDispatch();
 
     const [timer, setTimer] = useState(60);
     const [otp, setOtp] = useState('');
@@ -24,8 +27,13 @@ const OtpScreen = (props) => {
         return () => clearInterval(intervalRef.current);
     }, [timer]);
 
+    const handleNavigation = () => {
+        if (!isEmpty(otp)) {
+            dispatch({ type: SAVE_LOGIN })
+            props.navigation.navigate('MainScreen')
+        }
+    }
 
-    console.log(userDetails)
     return <React.Fragment>
         <SafeAreaView style={styles.safeViewTop} />
         <SafeAreaView style={styles.container}>
@@ -56,6 +64,7 @@ const OtpScreen = (props) => {
                     </View>
                     <View style={styles.buttonView}>
                         <Pressable
+                            onPress={handleNavigation}
                             style={styles.button}
                         >
                             <Text style={styles.buttonText}>{"Verify & continue"}</Text>
