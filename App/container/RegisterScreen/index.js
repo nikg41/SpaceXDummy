@@ -28,6 +28,9 @@ const RegisterScreen = (props) => {
 
     const dispatch = useDispatch();
 
+    const onSocialLogin = () => {
+        props.navigation.navigate("MainScreen")
+    }
 
     const onSignUpPressed = () => {
         let isEmailValid = EMAIL_PATTERN.test(email);
@@ -68,6 +71,7 @@ const RegisterScreen = (props) => {
                 title={"Sign up"} />
             <RegistartionCard>
                 <SocialLogin
+                    onSocialLogin={onSocialLogin}
                     startText={"Sign up"} />
                 <KeyboardAwareScrollView
                     showsVerticalScrollIndicator={false}

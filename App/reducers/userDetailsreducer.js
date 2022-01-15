@@ -3,13 +3,16 @@ import {
     SAVE_LOGIN,
     LOGOUT,
     STORE_DATA,
-    EMPTY_DATA
+    EMPTY_DATA,
+    SOCIAL_LOGIN
 } from '../constants';
 
 const initialState = {
     email: '',
     isLoggedIn: false,
-    spaceXData: {}
+    spaceXData: {},
+    socialLogin: false,
+    socialLoginType: ""
 };
 const userDetailsreducer = (state = initialState, action) => {
     switch (action.type) {
@@ -22,6 +25,13 @@ const userDetailsreducer = (state = initialState, action) => {
             return {
                 ...state,
                 isLoggedIn: true
+            }
+        case SOCIAL_LOGIN:
+            return {
+                ...state,
+                ...action.payload,
+                isLoggedIn: true,
+                socialLogin: true
             }
         case LOGOUT:
             return {

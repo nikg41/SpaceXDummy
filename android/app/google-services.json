@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1095881775351",
+    "project_id": "spacexdummy",
+    "storage_bucket": "spacexdummy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1095881775351:android:3fb42402421afda1d35bf2",
+        "android_client_info": {
+          "package_name": "com.spacexdummy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1095881775351-19hp4on1dc184vka1aaou5jv340qhj3l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.spacexdummy",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "1095881775351-88afcnijmgt0ijg0djcskr01vai4ftuc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDndZiLRpkutrSSf_kZ6ME5HXBZE04HH-0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1095881775351-88afcnijmgt0ijg0djcskr01vai4ftuc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

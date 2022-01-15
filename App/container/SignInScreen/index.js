@@ -22,6 +22,10 @@ const SignInScreen = (props) => {
     const [passwordError, setPasswordError] = useState('');
     const dispatch = useDispatch();
 
+    const onSocialLogin = () => {
+        props.navigation.navigate("MainScreen")
+    }
+
     const onSignInPressed = () => {
         let isEmailValid = EMAIL_PATTERN.test(email);
         let isPasswordvalid = PASSWORD_PATTERN.test(password);
@@ -56,6 +60,7 @@ const SignInScreen = (props) => {
                 title={"Sign in"} />
             <RegistartionCard>
                 <SocialLogin
+                    onSocialLogin={onSocialLogin}
                     startText={"Sign in"} />
                 <KeyboardAwareScrollView
                     showsVerticalScrollIndicator={false}

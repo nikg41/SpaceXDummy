@@ -11,6 +11,7 @@ import { LOGOUT, STORE_DATA, EMPTY_DATA } from "../../constants";
 import { isEmpty } from "ramda";
 import DetailsModal from "../../components/DetailsModal";
 import FilterView from "../../components/FilterView";
+import { GoogleSignin } from 'react-native-google-signin';
 
 const linearColors = [
     "#EC7561", "#D16C65",
@@ -23,8 +24,9 @@ const MainScreen = (props) => {
     const [isLoading, setIsLoading] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
     const [modalData, setModalData] = useState({});
-    const [filterPressed, setFilterPressed] = useState(false)
-    const spaceXData = useSelector(state => state.userDetails.spaceXData);
+    const [filterPressed, setFilterPressed] = useState(false);
+    const userDetails = useSelector(state => state.userDetails);
+    const spaceXData = userDetails.spaceXData;
     const dispatch = useDispatch();
 
     const emptyData = () => {
@@ -41,6 +43,17 @@ const MainScreen = (props) => {
             }
         })
     }
+
+    const signOut = async () => {
+        try {
+            await GoogleSignin.revokeAccess();
+            await GoogleSignin.signOut();
+            this.setState({ user: null, loggedIn: false }); // Remember to remove the user from your app's state as well
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     const getSpaceXdata = async () => {
         setIsLoading(true);
         emptyData();
@@ -55,6 +68,14 @@ const MainScreen = (props) => {
     }
 
     const onLogoutPress = () => {
+        let socialSignin = userDetails.socialLogin;
+        let socialSigninType = userDetails.socialLoginType;
+        if (socialSignin) {
+            if (socialSigninType === "Google") {
+                signOut();
+            }
+        };
+
         dispatch({ type: LOGOUT });
         props.navigation.navigate("SignInScreen")
     }
