@@ -1,12 +1,14 @@
 import {
     SAVE_EMAIL,
     SAVE_LOGIN,
-    LOGOUT
+    LOGOUT,
+    STORE_DATA
 } from '../constants';
 
 const initialState = {
     email: '',
-    isLoggedIn: false
+    isLoggedIn: false,
+    spaceXData: {}
 };
 const userDetailsreducer = (state = initialState, action) => {
     switch (action.type) {
@@ -22,8 +24,12 @@ const userDetailsreducer = (state = initialState, action) => {
             }
         case LOGOUT:
             return {
+                ...initialState
+            }
+        case STORE_DATA:
+            return {
                 ...state,
-                isLoggedIn: false
+                ...action.payload
             }
         default:
             return state;

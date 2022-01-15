@@ -30,7 +30,8 @@ const SignInScreen = (props) => {
         if (!isEmpty(email.trim()) && !isEmpty(password) && isEmailValid
             && isPasswordvalid) {
             dispatch({ type: SAVE_LOGIN })
-            props.navigation.navigate('MainScreen')
+            props.navigation.navigate('MainScreen');
+            setPassword('');
         }
         else {
             if (isEmpty(email.trim())) {
