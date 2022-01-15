@@ -2,7 +2,8 @@ import {
     SAVE_EMAIL,
     SAVE_LOGIN,
     LOGOUT,
-    STORE_DATA
+    STORE_DATA,
+    EMPTY_DATA
 } from '../constants';
 
 const initialState = {
@@ -30,6 +31,11 @@ const userDetailsreducer = (state = initialState, action) => {
             return {
                 ...state,
                 ...action.payload
+            }
+        case EMPTY_DATA:
+            return {
+                ...state,
+                spaceXData: {}
             }
         default:
             return state;

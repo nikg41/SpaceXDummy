@@ -7,36 +7,49 @@ import MainCard from "../../components/MainCard";
 import axios from 'axios';
 import { BASE_URL } from "../../Config";
 import { useDispatch, useSelector } from "react-redux";
-import { LOGOUT, STORE_DATA } from "../../constants";
-import { isEmpty, path, isNil } from "ramda";
+import { LOGOUT, STORE_DATA, EMPTY_DATA } from "../../constants";
+import { isEmpty } from "ramda";
+import DetailsModal from "../../components/DetailsModal";
+import FilterView from "../../components/FilterView";
+
 const linearColors = [
     "#EC7561", "#D16C65",
     "#44478D", "#4397CE",
     "#E33D24", "#D16C65",
     "#364261", "#383571"
 ];
-const isNilOrEmpty = text => isNil(text) || isEmpty(text);
 
 const MainScreen = (props) => {
     const [isLoading, setIsLoading] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
     const [modalData, setModalData] = useState({});
+    const [filterPressed, setFilterPressed] = useState(false)
     const spaceXData = useSelector(state => state.userDetails.spaceXData);
     const dispatch = useDispatch();
 
+    const emptyData = () => {
+        dispatch({
+            type: EMPTY_DATA
+        })
+    }
+
+    const storeData = (data) => {
+        dispatch({
+            type: STORE_DATA,
+            payload: {
+                spaceXData: data
+            }
+        })
+    }
     const getSpaceXdata = async () => {
         setIsLoading(true);
+        emptyData();
         const configurationObject = {
             method: 'get',
             url: `${BASE_URL}/launches`,
         };
         const response = await axios(configurationObject);
-        dispatch({
-            type: STORE_DATA,
-            payload: {
-                spaceXData: response.data
-            }
-        })
+        storeData(response.data);
         setIsLoading(false);
         return
     }
@@ -50,66 +63,59 @@ const MainScreen = (props) => {
         if (isEmpty(spaceXData))
             getSpaceXdata();
     }, []);
-    const renderModal = () => {
-        let missionDetails = isNilOrEmpty(path(["details"], modalData)) ?
-            "Details for this mission are not available!" : path(["details"], modalData);
-        return <Modal
-            visible={modalVisible}
-            transparent={true}>
-            <Pressable style={styles.modalBg}
-                onPress={() => {
-                    setModalVisible(false);
-                    setModalData({});
-                }}>
-                <View style={styles.modalView}>
-                    <View style={{
-                        justifyContent: "space-between",
-                        flexDirection: "row"
-                    }}>
-                        <Text style={styles.modalHeading}>
-                            {`Mission: ${modalData.mission_name}`}
-                        </Text >
-                        <Text style={styles.modalHeading}>
-                            {`${modalData.launch_year}`}
-                        </Text>
-                    </View>
-                    <View style={{
-                        marginTop: 20,
-                        paddingHorizontal: 20
-                    }}>
-                        <Text style={styles.RocketText}>{"Rocket Details"}</Text>
-                        <Text style={styles.rocketDesc}> {`Rocket Name:${path(["rocket", "rocket_name"], modalData)}`}</Text>
-                        <Text style={styles.rocketDesc}> {`Rocket Type:${path(["rocket", "rocket_type"], modalData)}`}</Text>
-                    </View>
-                    <View style={{
-                        marginTop: 10,
-                        paddingHorizontal: 20
-                    }}>
-                        <Text style={styles.RocketText}>{"Mission Site"}</Text>
-                        <Text style={styles.rocketDesc}> {`${path(["launch_site", "site_name_long"], modalData)}`}</Text>
-                    </View>
-                    <View style={{
-                        marginTop: 10,
-                        paddingHorizontal: 20
-                    }}>
-                        <Text style={styles.RocketText}>{"Mission Details"}</Text>
-                        <Text style={styles.rocketDesc}> {`${missionDetails}`}</Text>
-                    </View>
-                </View>
-            </Pressable>
 
-        </Modal>
+    const getPastData = async () => {
+        setIsLoading(true);
+        emptyData();
+        const configurationObject = {
+            method: 'get',
+            url: `${BASE_URL}/launches/past`,
+        };
+        const response = await axios(configurationObject);
+        storeData(response.data);
+        setIsLoading(false);
+        return
+    };
+
+    const getUpcomingData = async () => {
+        setIsLoading(true);
+        emptyData();
+        const configurationObject = {
+            method: 'get',
+            url: `${BASE_URL}/launches/upcoming`,
+        };
+        const response = await axios(configurationObject);
+        storeData(response.data);
+        setIsLoading(false);
+        return
     }
 
+    const getDataWithDates = async (startDate, endDate) => {
+        setIsLoading(true);
+        emptyData();
+        const configurationObject = {
+            method: 'get',
+            url: `${BASE_URL}/launches`,
+            params: {
+                start: startDate,
+                end: endDate
+            },
+        };
+        const response = await axios(configurationObject);
+        storeData(response.data);
+        setIsLoading(false);
+        return
+    }
     return <React.Fragment>
         <SafeAreaView style={styles.safeViewTop} />
         <SafeAreaView style={styles.container}>
             <AndroidStatusBar backgroundColor={"#312F57"} />
             <MainHeader
                 title={'SpaceX'}
-                onLogoutPress={onLogoutPress} />
+                onLogoutPress={onLogoutPress}
+                setFilterPressed={setFilterPressed} />
             <MainCard>
-                <View>
+                {!filterPressed ? <View>
                     <FlatList
                         style={{ marginHorizontal: 25 }}
                         showsVerticalScrollIndicator={false}
@@ -134,7 +140,12 @@ const MainScreen = (props) => {
                             </View>
                         }}
                     />
-                </View>
+                </View> : <FilterView
+                    filter={setFilterPressed}
+                    getPastData={getPastData}
+                    getUpcomingData={getUpcomingData}
+                    getSpaceXdata={getSpaceXdata}
+                    getDataWithDates={getDataWithDates} />}
                 {isLoading ? (
                     <View style={styles.activityIndicator}>
                         <ActivityIndicator size="large" color={"#312F57"} />
@@ -142,7 +153,12 @@ const MainScreen = (props) => {
                 ) : null}
 
             </MainCard>
-            {modalVisible && renderModal()}
+            {modalVisible && <DetailsModal
+                modalData={modalData}
+                setModalData={setModalData}
+                modalVisible={modalVisible}
+                setModalVisible={setModalVisible}
+            />}
         </SafeAreaView>
     </React.Fragment>
 };
