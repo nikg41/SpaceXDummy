@@ -1,16 +1,9 @@
-import { SAVE_PHONE_NUMBER, SAVE_USER_DETAILS } from '../constants';
+import { SAVE_EMAIL } from '../constants';
 
 
-export const savePhoneNumber = (payload) => {
+export const saveEmail = (payload) => {
     return {
-        type: SAVE_PHONE_NUMBER,
-        payload: payload
-    }
-}
-
-export const saveUserDetails = (payload) => {
-    return {
-        type: SAVE_USER_DETAILS,
+        type: SAVE_EMAIL,
         payload: payload
     }
 }
