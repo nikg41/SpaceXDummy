@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { Pressable, SafeAreaView, Text, View } from "react-native";
+import { Pressable, SafeAreaView, Text, View, TextInput } from "react-native";
 import styles from "./styles";
 import Header from "../../components/Header";
 import RegistartionCard from "../../components/RegistartionCard";
 import AndroidStatusBar from "../../components/AndroidStatusBar";
 import SocialLogin from "../../components/SocialLogin";
-import { TextInput } from "react-native-gesture-handler";
 import Icons from "react-native-vector-icons/MaterialCommunityIcons"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { isEmpty } from "ramda";
