@@ -1,6 +1,7 @@
 import {
     SAVE_EMAIL,
-    SAVE_LOGIN
+    SAVE_LOGIN,
+    LOGOUT
 } from '../constants';
 
 const initialState = {
@@ -18,6 +19,11 @@ const userDetailsreducer = (state = initialState, action) => {
             return {
                 ...state,
                 isLoggedIn: true
+            }
+        case LOGOUT:
+            return {
+                ...state,
+                isLoggedIn: false
             }
         default:
             return state;
