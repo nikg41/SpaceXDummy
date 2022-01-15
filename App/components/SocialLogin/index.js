@@ -5,6 +5,8 @@ import { SocialIcon } from 'react-native-elements';
 import { GoogleSignin } from 'react-native-google-signin';
 import { useDispatch } from "react-redux";
 import { SOCIAL_LOGIN } from "../../constants";
+import { LoginManager } from "react-native-fbsdk";
+
 const SocialLogin = (props) => {
     const dispatch = useDispatch()
     useEffect(() => {
@@ -44,8 +46,35 @@ const SocialLogin = (props) => {
             }
         }
     };
+
+    const facebookSignIn = async () => {
+        await LoginManager.logInWithPermissions(["public_profile"]).then(
+            function (result) {
+                if (result.isCancelled) {
+                    console.log("Login cancelled");
+                } else {
+                    dispatch({
+                        type: SOCIAL_LOGIN,
+                        payload: {
+                            socialSigninType: "Facebook"
+                        }
+                    });
+                    props.onSocialLogin();
+                }
+            },
+            function (error) {
+                console.log("Login fail with error: " + error);
+            }
+        );
+    }
+
     return <View style={styles.socialLoginView}>
-        <Pressable style={[styles.buttonStyle, styles.facebook]}>
+        <Pressable
+            onPress={() => {
+                if (Platform.OS === "android")
+                    facebookSignIn()
+            }}
+            style={[styles.buttonStyle, styles.facebook]}>
             <SocialIcon
                 type="facebook"
                 raised={false}
