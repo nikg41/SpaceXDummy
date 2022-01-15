@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "1095881775351-c3422t6ri6c8576imfpb2oe4cc0718tn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.spacexdummy",
+            "certificate_hash": "36f38f21f0d3ebfddf8f8944a7301fc66cac9d71"
+          }
+        },
+        {
           "client_id": "1095881775351-88afcnijmgt0ijg0djcskr01vai4ftuc.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -37,6 +45,13 @@
             {
               "client_id": "1095881775351-88afcnijmgt0ijg0djcskr01vai4ftuc.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "1095881775351-mkr2gmbdh10quq5ojjevabu51dk5jo02.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.SpaceXDummy"
+              }
             }
           ]
         }
