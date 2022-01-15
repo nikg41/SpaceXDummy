@@ -12,7 +12,7 @@ import { SAVE_EMAIL } from "../../constants";
 import { useDispatch } from 'react-redux'
 
 const EMAIL_PATTERN = new RegExp('^[a-z0-9A-Z]+@[a-z]+\.[a-z]{2,3}$');
-const PASSWORD_PATTERN = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#&])(?=.{8,})");
+const PASSWORD_PATTERN = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#&])(?=.{8,16})");
 // (?=.*[0-9])(?=.*[@$!%*#?&])
 const RegisterScreen = (props) => {
     const [email, setEmail] = useState('');
@@ -51,7 +51,7 @@ const RegisterScreen = (props) => {
             if (isEmpty(password)) {
                 setPasswordError("Please enter your password")
             } else if (!isPasswordvalid) {
-                setPasswordError("Password must contain 1 Capital Letter, 1 digit and 1 special character @#&")
+                setPasswordError("Password must contain 1 Capital Letter, 1 digit and 1 special character @#& and password length should be 8 to 16")
             }
             if (!isEmpty(password) && password !== confirmPassword) {
                 setConfirmPasswordError("Confirm Your Password")
@@ -90,12 +90,13 @@ const RegisterScreen = (props) => {
                         <TextInput
                             value={password}
                             placeholderTextColor="#7F7F7F"
-                            style={styles.textInputStyle}
+                            style={[styles.textInputStyle, { width: "90%" }]}
                             placeholder="Password"
                             onChangeText={(value) => {
                                 setPassword(value.trim());
                                 setPasswordError('')
                             }}
+                            maxLength={16}
                             keyboardType="default"
                             secureTextEntry={passwordButton}
                         />
@@ -109,17 +110,18 @@ const RegisterScreen = (props) => {
                         </Pressable>
                     </View>
                     {!isEmpty(passwordError) && <Text style={styles.errorText}>{passwordError}</Text>}
-                    {isEmpty(passwordError) && <Text style={styles.passwordText}>{"Password must contain 1 Capital Letter, 1 digit and 1 special character @#&"}</Text>}
+                    {isEmpty(passwordError) && <Text style={styles.passwordText}>{"Password must contain 1 Capital Letter, 1 digit and 1 special character @#& and password length should be 8 to 16"}</Text>}
                     <View style={[styles.textInputView, styles.passwordView]}>
                         <TextInput
                             value={confirmPassword}
                             placeholderTextColor="#7F7F7F"
-                            style={styles.textInputStyle}
+                            style={[styles.textInputStyle, { width: "90%" }]}
                             placeholder="Confirm Password"
                             onChangeText={(value) => {
                                 setConfirmPassword(value.trim());
                                 setConfirmPasswordError('')
                             }}
+                            maxLength={16}
                             keyboardType="default"
                             secureTextEntry={confirmPasswordButton}
                         />

@@ -12,7 +12,7 @@ import { SAVE_LOGIN } from "../../constants";
 import { useDispatch } from "react-redux";
 
 const EMAIL_PATTERN = new RegExp('^[a-z0-9A-Z]+@[a-z]+\.[a-z]{2,3}$');
-const PASSWORD_PATTERN = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#&])(?=.{8,})");
+const PASSWORD_PATTERN = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#&])(?=.{8,16})");
 // (?=.*[0-9])(?=.*[@$!%*#?&])
 const SignInScreen = (props) => {
     const [email, setEmail] = useState('');
@@ -78,12 +78,13 @@ const SignInScreen = (props) => {
                         <TextInput
                             value={password}
                             placeholderTextColor="#7F7F7F"
-                            style={styles.textInputStyle}
+                            style={[styles.textInputStyle, { width: "90%" }]}
                             placeholder="Password"
                             onChangeText={(value) => {
                                 setPassword(value.trim());
                                 setPasswordError('')
                             }}
+                            maxLength={16}
                             keyboardType="default"
                             secureTextEntry={passwordButton}
                         />

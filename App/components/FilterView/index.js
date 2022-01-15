@@ -104,7 +104,7 @@ const FilterView = ({
             </Modal>
         )
     }
-    return <View style={{ marginHorizontal: 25 }}>
+    return <View >
         <Pressable
             onPress={() => {
                 filter(false);

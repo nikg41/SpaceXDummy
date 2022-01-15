@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     },
 
     dataButton: {
-        width: width - 80,
+        width: width - 30,
         justifyContent: "center",
         alignItems: "center",
         height: 45,
