@@ -1,1 +1,1 @@
-export const background = require("./InitialScreen.png")
+export const background = require("./InitialScreen.jpeg")

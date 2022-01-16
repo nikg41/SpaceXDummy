@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Pressable, SafeAreaView, Text, View, TextInput } from "react-native";
+import React, { useState, useEffect } from "react";
+import { Pressable, SafeAreaView, Text, View, TextInput, BackHandler } from "react-native";
 import styles from "./styles";
 import Header from "../../components/Header";
 import RegistartionCard from "../../components/RegistartionCard";
@@ -21,6 +21,13 @@ const SignInScreen = (props) => {
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        BackHandler.addEventListener("hardwareBackPress", () => { return true; });
+        return () => {
+            BackHandler.removeEventListener("hardwareBackPress", () => { return true; });
+        };
+    }, []);
 
     const onSocialLogin = () => {
         props.navigation.navigate("MainScreen")

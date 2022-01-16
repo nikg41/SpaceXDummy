@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Pressable, SafeAreaView, Text, View } from "react-native";
+import { Pressable, SafeAreaView, Text, View, BackHandler } from "react-native";
 import styles from "./styles";
 import Header from "../../components/Header";
 import RegistartionCard from "../../components/RegistartionCard";
@@ -19,6 +19,13 @@ const OtpScreen = (props) => {
     let intervalRef = useRef();
 
     const decreaseNum = () => setTimer((prev) => prev - 1);
+
+    useEffect(() => {
+        BackHandler.addEventListener("hardwareBackPress", () => { return true; });
+        return () => {
+            BackHandler.removeEventListener("hardwareBackPress", () => { return true; });
+        };
+    }, []);
 
     useEffect(() => {
         if (timer < 1)

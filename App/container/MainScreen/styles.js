@@ -45,6 +45,13 @@ const styles = StyleSheet.create({
         textAlign: "right"
     },
 
+    errorText: {
+        color: "#312F57",
+        fontSize: 20,
+        fontWeight: "700",
+        textAlign: "center"
+    }
+
 })
 
 export default styles;

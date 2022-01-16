@@ -11,7 +11,8 @@ function RootStack() {
     return (
         <Stack.Navigator
             screenOptions={{
-                headerShown: false
+                headerShown: false,
+                animationEnabled: false
             }}
         >
             <Stack.Screen name="InitialScreen" component={InitialScreen} />

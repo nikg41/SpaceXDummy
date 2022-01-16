@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FlatList, Pressable, SafeAreaView, Text, View, ActivityIndicator, Modal } from "react-native";
+import { FlatList, Pressable, SafeAreaView, Text, View, ActivityIndicator, BackHandler } from "react-native";
 import styles from "./styles";
 import AndroidStatusBar from "../../components/AndroidStatusBar";
 import MainHeader from "../../components/MainHeader";
@@ -25,11 +25,13 @@ const MainScreen = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [modalData, setModalData] = useState({});
     const [filterPressed, setFilterPressed] = useState(false);
+    const [dataError, setDataError] = useState("")
     const userDetails = useSelector(state => state.userDetails);
     const spaceXData = userDetails.spaceXData;
     const dispatch = useDispatch();
 
     const emptyData = () => {
+        setDataError("");
         dispatch({
             type: EMPTY_DATA
         })
@@ -42,6 +44,10 @@ const MainScreen = (props) => {
                 spaceXData: data
             }
         })
+    }
+
+    const setError = () => {
+        setDataError("Failed to fetch the data. Please try again later!");
     }
 
     const signOut = async () => {
@@ -57,12 +63,16 @@ const MainScreen = (props) => {
     const getSpaceXdata = async () => {
         setIsLoading(true);
         emptyData();
-        const configurationObject = {
-            method: 'get',
-            url: `${BASE_URL}/launches`,
-        };
-        const response = await axios(configurationObject);
-        storeData(response.data);
+        try {
+            const configurationObject = {
+                method: 'get',
+                url: `${BASE_URL}/launches`,
+            };
+            const response = await axios(configurationObject);
+            storeData(response.data);
+        } catch (error) {
+            setError();
+        }
         setIsLoading(false);
         return
     }
@@ -83,17 +93,25 @@ const MainScreen = (props) => {
     useEffect(() => {
         if (isEmpty(spaceXData))
             getSpaceXdata();
+        BackHandler.addEventListener("hardwareBackPress", () => { return true; });
+        return () => {
+            BackHandler.removeEventListener("hardwareBackPress", () => { return true; });
+        };
     }, []);
 
     const getPastData = async () => {
         setIsLoading(true);
         emptyData();
-        const configurationObject = {
-            method: 'get',
-            url: `${BASE_URL}/launches/past`,
-        };
-        const response = await axios(configurationObject);
-        storeData(response.data);
+        try {
+            const configurationObject = {
+                method: 'get',
+                url: `${BASE_URL}/launches/past`,
+            };
+            const response = await axios(configurationObject);
+            storeData(response.data);
+        } catch (error) {
+            setError();
+        }
         setIsLoading(false);
         return
     };
@@ -101,12 +119,16 @@ const MainScreen = (props) => {
     const getUpcomingData = async () => {
         setIsLoading(true);
         emptyData();
-        const configurationObject = {
-            method: 'get',
-            url: `${BASE_URL}/launches/upcoming`,
-        };
-        const response = await axios(configurationObject);
-        storeData(response.data);
+        try {
+            const configurationObject = {
+                method: 'get',
+                url: `${BASE_URL}/launches/upcoming`,
+            };
+            const response = await axios(configurationObject);
+            storeData(response.data);
+        } catch (error) {
+            setError();
+        }
         setIsLoading(false);
         return
     }
@@ -114,16 +136,21 @@ const MainScreen = (props) => {
     const getDataWithDates = async (startDate, endDate) => {
         setIsLoading(true);
         emptyData();
-        const configurationObject = {
-            method: 'get',
-            url: `${BASE_URL}/launches`,
-            params: {
-                start: startDate,
-                end: endDate
-            },
-        };
-        const response = await axios(configurationObject);
-        storeData(response.data);
+        try {
+            const configurationObject = {
+                method: 'get',
+                url: `${BASE_URL}/launches`,
+                params: {
+                    start: startDate,
+                    end: endDate
+                },
+            };
+            const response = await axios(configurationObject);
+            storeData(response.data);
+        } catch (error) {
+            setError();
+        }
+
         setIsLoading(false);
         return
     }
@@ -167,6 +194,11 @@ const MainScreen = (props) => {
                     getUpcomingData={getUpcomingData}
                     getSpaceXdata={getSpaceXdata}
                     getDataWithDates={getDataWithDates} />}
+                {dataError ? (
+                    <View style={styles.activityIndicator}>
+                        <Text style={styles.errorText}>{dataError}</Text>
+                    </View>
+                ) : null}
                 {isLoading ? (
                     <View style={styles.activityIndicator}>
                         <ActivityIndicator size="large" color={"#312F57"} />
